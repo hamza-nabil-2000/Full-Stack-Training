@@ -1,0 +1,10 @@
+<div class="container">
+    <h1>{{title}}</h1>
+
+    <!-- Display current count -->
+    <app-display [count]="count"></app-display>
+
+    <!-- Buttons receive current count to manage disabled state -->
+    <app-buttons [count]="count" (increment)="onIncrement()" (decrement)="onDecrement()"
+        (reset)="onReset()"></app-buttons>
+</div>

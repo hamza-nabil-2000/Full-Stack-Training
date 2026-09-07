@@ -1,0 +1,28 @@
+<div class="table-container">
+    <h2>Student Table</h2>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Subject</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr *ngFor="let student of students">
+                <td> {{student.id}} </td>
+                <td> {{student.name}} </td>
+                <td> {{student.age}} </td>
+                <td> {{student.subject}} </td>
+                <td>
+                    <button (click)="onEdit(student)">Edit</button>
+                    <button (click)="onDelete(student.id)">Delete</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

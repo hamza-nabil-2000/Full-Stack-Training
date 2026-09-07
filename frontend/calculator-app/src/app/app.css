@@ -1,0 +1,362 @@
+.container {
+  width: 700px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.top-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.modes-bar {
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 0;
+  margin-bottom: 0;
+}
+
+.mode-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 8px 16px;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.mode-btn.active {
+  color: var(--text-main);
+  background: var(--btn-hover);
+}
+
+.display-area {
+  padding: 28px;
+  text-align: right;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.history {
+  font-size: 16px;
+  color: var(--text-muted);
+  height: 24px;
+}
+
+.current-val {
+  font-size: 56px;
+  font-weight: 300;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.keypad.currency-mode {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.key {
+  height: 80px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  background: var(--btn-bg);
+  color: var(--text-main);
+  font-size: 24px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.key:hover {
+  background: var(--btn-hover);
+  transform: translateY(-2px);
+}
+
+.key:active {
+  background: var(--btn-active);
+  transform: translateY(0);
+}
+
+.key.operator {
+  color: var(--accent-primary);
+}
+.key.logical {
+  color: var(--accent-secondary);
+}
+.key.currency {
+  color: var(--accent-tertiary);
+}
+.key.action {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.double {
+  grid-column: span 2;
+}
+
+.key.invisible {
+  visibility: hidden;
+  border: none;
+  background: transparent;
+  pointer-events: none;
+}
+
+.currency-section-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.currency-selectors {
+  display: flex;
+  gap: 15px;
+}
+
+.select-wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.select-wrapper label {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  padding-left: 4px;
+}
+
+.result-display-wrapper {
+  flex: 1.5; /* Give more space to the result */
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.result-display-wrapper label {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--accent-tertiary);
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding-left: 4px;
+}
+
+.result-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.result-input {
+  background: rgba(255, 255, 255, 0.05); /* Slightly different bg for readonly */
+  border: 1px solid var(--accent-tertiary); /* Highlight border */
+  color: var(--text-main);
+  font-size: 18px;
+  font-weight: 700;
+  pointer-events: none; /* Make it truly readonly from UI perspective */
+  text-align: left;
+  letter-spacing: 0.5px;
+  padding-right: 50px; /* Space for suffix */
+}
+
+.currency-suffix {
+  position: absolute;
+  right: 15px;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--accent-tertiary);
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.result-input-container:has(.clear-result-btn) .currency-suffix {
+  right: 45px; /* Push suffix to the left when clear button is visible */
+}
+
+.clear-result-btn {
+  position: absolute;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  color: var(--text-muted);
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 18px;
+  transition: all 0.2s ease;
+  z-index: 2; /* Ensure it's above the readonly input */
+  pointer-events: auto; /* Re-enable pointer events since parent might have them disabled or container needs it */
+}
+
+.clear-result-btn:hover {
+  background: var(--accent-tertiary);
+  color: white;
+  transform: scale(1.1);
+}
+
+.clear-result-btn:active {
+  transform: scale(0.9);
+}
+
+.glass-select {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  padding: 12px 15px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.glass-select:focus {
+  border-color: var(--accent-tertiary);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.glass-select option {
+  background: #1e293b;
+  color: var(--text-main);
+}
+
+.combo-wrapper {
+  position: relative;
+}
+
+.glass-combobox-input {
+  cursor: text;
+}
+
+.glass-combobox-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  max-height: 240px;
+  overflow-y: auto;
+  background: rgba(15, 23, 42, 0.98);
+  border-radius: 12px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 18px 45px rgba(15, 23, 42, 0.9);
+  padding: 6px;
+  z-index: 10;
+}
+
+.glass-combobox-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-main);
+  font-size: 13px;
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background 0.2s ease,
+    transform 0.1s ease;
+}
+
+.glass-combobox-option:hover {
+  background: rgba(148, 163, 184, 0.25);
+  transform: translateY(-1px);
+}
+
+.glass-combobox-option .code {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.glass-combobox-option .name {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-left: 10px;
+}
+
+.live-rate-info {
+  font-size: 11px;
+  color: var(--accent-secondary);
+  margin-top: 6px;
+  padding-left: 4px;
+  font-weight: 500;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
+}
+
+.rate-status {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  font-size: 11px;
+  color: var(--text-muted);
+  padding: 0;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+.pulse {
+  animation: pulse-animation 2s infinite;
+}
+
+@keyframes pulse-animation {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+.status-text {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #22c55e;
+}

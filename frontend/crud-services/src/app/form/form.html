@@ -1,0 +1,24 @@
+<div class="form-container">
+    <h2 class="form-title">{{ selectedId ? 'Edit' : 'Add' }} Student</h2>
+
+    <form class="form" [formGroup]="studentForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" formControlName="name" placeholder="Enter Name" id="name" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age:</label>
+            <input type="text" formControlName="age" placeholder="Enter Age" id="age" required>
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Subject:</label>
+            <input type="text" formControlName="subject" placeholder="Enter Subject" id="subject" required>
+        </div>
+
+        <button type="submit" class="btn">
+            {{ selectedId ? 'Update' : 'Add' }} Student
+        </button>
+    </form>
+</div>

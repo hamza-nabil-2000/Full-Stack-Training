@@ -1,0 +1,162 @@
+<main>
+  <div class="container glass-pill">
+    <!-- Top Bar: Mode Switcher + Live Rates -->
+    <div class="top-bar">
+      <div class="modes-bar">
+        <button class="mode-btn" [class.active]="mode() === 'standard'" (click)="setMode('standard')">Standard</button>
+        <button class="mode-btn" [class.active]="mode() === 'currency'" (click)="setMode('currency')">Currency</button>
+      </div>
+      <div class="rate-status" *ngIf="mode() === 'currency'">
+        <span class="live-dot pulse"></span>
+        <span class="status-text">Live Rates</span>
+        <span class="update-time" *ngIf="lastUpdated()">• Updated at: {{ lastUpdated() }}</span>
+      </div>
+    </div>
+
+    <div class="currency-section-wrapper" *ngIf="mode() === 'currency'">
+      <div class="currency-selectors">
+        <div class="result-display-wrapper">
+          <label>Converted Amount</label>
+          <div class="result-input-container">
+            <input 
+              type="text" 
+              class="glass-select result-input" 
+              [value]="conversionResult()" 
+              readonly 
+              placeholder="0.00"
+            />
+            <span class="currency-suffix" *ngIf="conversionResult()">{{ toCode }}</span>
+            <button class="clear-result-btn" *ngIf="conversionResult()" (click)="clearResult()" aria-label="Clear result">
+              &times;
+            </button>
+          </div>
+        </div>
+        <div class="select-wrapper">
+          <label>From</label>
+          <div class="combo-wrapper" #fromWrapper>
+            <input
+              class="glass-select glass-combobox-input"
+              type="text"
+              [(ngModel)]="fromSearch"
+              (focus)="fromDropdownOpen = true; $any($event.target).select()"
+              (click)="fromDropdownOpen = true; $any($event.target).select()"
+              (input)="onFromSearchChange(fromSearch)"
+              (blur)="onFromBlur()"
+              [attr.aria-label]="'Select source currency'"
+              [attr.role]="'combobox'"
+              [attr.aria-expanded]="fromDropdownOpen"
+            />
+            <div class="glass-combobox-panel" *ngIf="fromDropdownOpen">
+              <button
+                type="button"
+                class="glass-combobox-option"
+                *ngFor="let c of filteredFromCurrencies()"
+                (mousedown)="$event.preventDefault()"
+                (click)="selectFromCurrency(c)"
+              >
+                <span class="code">{{ c }}</span>
+                <span class="name">{{ currencyNames()[c] }}</span>
+              </button>
+            </div>
+          </div>
+          <div class="live-rate-info" *ngIf="rates()[toCode]">
+            1 {{ fromCode }} = {{ rates()[toCode] | number:'1.2-4' }} {{ toCode }}
+          </div>
+        </div>
+        <div class="select-wrapper">
+          <label>To</label>
+          <div class="combo-wrapper" #toWrapper>
+            <input
+              class="glass-select glass-combobox-input"
+              type="text"
+              [(ngModel)]="toSearch"
+              (focus)="toDropdownOpen = true; $any($event.target).select()"
+              (click)="toDropdownOpen = true; $any($event.target).select()"
+              (input)="onToSearchChange(toSearch)"
+              (blur)="onToBlur()"
+              [attr.aria-label]="'Select target currency'"
+              [attr.role]="'combobox'"
+              [attr.aria-expanded]="toDropdownOpen"
+            />
+            <div class="glass-combobox-panel" *ngIf="toDropdownOpen">
+              <button
+                type="button"
+                class="glass-combobox-option"
+                *ngFor="let c of filteredToCurrencies()"
+                (mousedown)="$event.preventDefault()"
+                (click)="selectToCurrency(c)"
+              >
+                <span class="code">{{ c }}</span>
+                <span class="name">{{ currencyNames()[c] }}</span>
+              </button>
+            </div>
+          </div>
+          <div class="live-rate-info" *ngIf="rates()[toCode]">
+            1 {{ toCode }} = {{ (1 / rates()[toCode]) | number:'1.2-4' }} {{ fromCode }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Display Area -->
+    <div class="display-area glass-pill">
+      <div class="history">{{ history() }}</div>
+      <div class="current-val">{{ display() }}</div>
+    </div>
+
+    <!-- Keypad -->
+    <div class="keypad" [class.currency-mode]="mode() === 'currency'">
+      <!-- Logic for Standard Mode -->
+      <ng-container *ngIf="mode() === 'standard'">
+        <button class="key action" (click)="onInput('C')">C</button>
+        <button class="key action" (click)="onInput('sqrt')">√</button>
+        <button class="key action" (click)="onInput('pow')">xⁿ</button>
+        <button class="key action" (click)="onInput('%')">%</button>
+        <button class="key operator" (click)="onInput('/')">÷</button>
+
+        <button class="key" (click)="onInput('7')">7</button>
+        <button class="key" (click)="onInput('8')">8</button>
+        <button class="key" (click)="onInput('9')">9</button>
+        <button class="key operator" (click)="onInput('*')">×</button>
+
+        <button class="key" (click)="onInput('4')">4</button>
+        <button class="key" (click)="onInput('5')">5</button>
+        <button class="key" (click)="onInput('6')">6</button>
+        <button class="key operator" (click)="onInput('-')">−</button>
+
+        <button class="key" (click)="onInput('1')">1</button>
+        <button class="key" (click)="onInput('2')">2</button>
+        <button class="key" (click)="onInput('3')">3</button>
+        <button class="key operator" (click)="onInput('+')">+</button>
+
+        <button class="key double" (click)="onInput('0')">0</button>
+        <button class="key" (click)="onInput('.')">.</button>
+        <button class="key operator" (click)="onInput('=')" style="grid-column: span 4;">=</button>
+      </ng-container>
+
+      <!-- Logic for Currency Mode (3-column layout) -->
+      <ng-container *ngIf="mode() === 'currency'">
+        <!-- Row 1: Actions -->
+        <button class="key action" (click)="onInput('C')">Clear</button>
+        <button class="key operator double" (click)="onInput('=')">Convert Now</button>
+
+        <!-- Numbers Grid 3x3 -->
+        <button class="key" (click)="onInput('7')">7</button>
+        <button class="key" (click)="onInput('8')">8</button>
+        <button class="key" (click)="onInput('9')">9</button>
+
+        <button class="key" (click)="onInput('4')">4</button>
+        <button class="key" (click)="onInput('5')">5</button>
+        <button class="key" (click)="onInput('6')">6</button>
+
+        <button class="key" (click)="onInput('1')">1</button>
+        <button class="key" (click)="onInput('2')">2</button>
+        <button class="key" (click)="onInput('3')">3</button>
+
+        <!-- Last Row: 0 (double) and . -->
+        <button class="key double" (click)="onInput('0')">0</button>
+        <button class="key" (click)="onInput('.')">.</button>
+      </ng-container>
+    </div>
+  </div>
+</main>

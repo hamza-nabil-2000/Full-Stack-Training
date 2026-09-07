@@ -1,0 +1,26 @@
+<div class="form-container">
+    <h2>Student Form</h2>
+
+    <form [formGroup]="studentForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field">
+            <label for="">Name</label>
+            <input type="text" placeholder="Enter Name" formControlName="name" />
+        </div>
+
+        <div class="field">
+            <label for="">Age</label>
+            <input type="number" placeholder="Enter Age" formControlName="age" />
+        </div>
+
+        <div class="field">
+            <label for="">Subject</label>
+            <input type="text" placeholder="Enter Subject" formControlName="subject" />
+        </div>
+
+        <div class="button">
+            <button type="submit">
+                {{editMode ? 'Update':'Add'}} Student
+            </button>
+        </div>
+    </form>
+</div>

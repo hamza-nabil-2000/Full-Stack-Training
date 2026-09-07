@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap');
+
+:root {
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  
+  --accent-primary: #f97316; /* Arithmetic - Orange */
+  --accent-secondary: #3b82f6; /* Logical - Blue */
+  --accent-tertiary: #10b981; /* Currency - Green */
+  
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  
+  --btn-bg: rgba(255, 255, 255, 0.03);
+  --btn-hover: rgba(255, 255, 255, 0.08);
+  --btn-active: rgba(255, 255, 255, 0.12);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Outfit', sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.glass-pill {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+    border-radius: 12px;
+}
+
+.glow-orange { box-shadow: 0 0 15px rgba(249, 115, 22, 0.3); }
+.glow-blue { box-shadow: 0 0 15px rgba(59, 130, 246, 0.3); }
+.glow-green { box-shadow: 0 0 15px rgba(16, 185, 129, 0.3); }

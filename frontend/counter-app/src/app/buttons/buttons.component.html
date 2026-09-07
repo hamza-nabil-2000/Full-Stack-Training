@@ -1,0 +1,13 @@
+<div class="buttons">
+    <button class="btn dec" (click)="onDec()" [disabled]="count <= 0">
+        Dcrement
+    </button>
+
+    <button class="btn inc" (click)="onInc()">
+        Increment
+    </button>
+
+    <button class="btn reset" (click)="onReset()" [disabled]="count <= 0">
+        Reset
+    </button>
+</div>

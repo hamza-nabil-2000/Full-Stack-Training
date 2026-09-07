@@ -1,0 +1,6 @@
+<div class="app-container">
+  <app-form (addStudent)="onAddStudent($event)" (updateStudent)="onUpdateStudent($event)"></app-form>
+
+  <app-table [students]="students" (editStudent)="onEditStudent($event)" (deleteStudent)="onDeleteStudent($event)">
+  </app-table>
+</div>
